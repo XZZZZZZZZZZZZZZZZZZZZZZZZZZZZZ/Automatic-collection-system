@@ -122,21 +122,11 @@
             color: #8b949e; 
             font-weight: normal; 
         }
-        .status-ok { 
-            background-color: rgba(46, 160, 67, 0.15); 
-            color: #3fb950; 
-            padding: 6px 12px; 
-            border-radius: 20px; 
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .status-pending { 
-            background-color: rgba(210, 153, 34, 0.15); 
-            color: #d29922; 
-            padding: 6px 12px; 
-            border-radius: 20px; 
-            font-size: 14px;
-            font-weight: bold;
+        .empty-state {
+            text-align: center;
+            color: #8b949e;
+            padding: 30px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -146,16 +136,16 @@
         <h2>TPG</h2>
         <a href="dashboard.html" class="nav-item active">לוח בקרה ראשי</a>
         <a href="clients.html" class="nav-item">ניהול לקוחות</a>
-        <a href="#" class="nav-item">היסטוריית חיובים</a>
-        <a href="#" class="nav-item">הגדרות גבייה</a>
-        <a href="#" class="nav-item">דוחות וסטטיסטיקה</a>
+        <a href="history.html" class="nav-item">היסטוריית חיובים</a>
+        <a href="settings.html" class="nav-item">הגדרות גבייה</a>
+        <a href="reports.html" class="nav-item">דוחות וסטטיסטיקה</a>
         <a href="index.html" class="nav-item" style="margin-top: auto; border-top: 1px solid #30363d; color: #f85149;">התנתקות המערכת</a>
     </div>
 
     <div class="main-content">
         <div class="topbar">
             <span>מערכת גבייה אוטומטית - גרסת בטא</span>
-            <span class="user-info">שלום, עסק לדוגמה</span>
+            <span class="user-info">שלום, מנהל המערכת</span>
         </div>
         
         <div class="content-area">
@@ -163,50 +153,36 @@
             
             <div class="cards">
                 <div class="card">
-                    <h3>הכנסות החודש (אפריל)</h3>
-                    <div class="number">₪12,450</div>
+                    <h3>הכנסות החודש</h3>
+                    <div class="number">₪0</div>
                 </div>
                 <div class="card">
                     <h3>לקוחות פעילים במערכת</h3>
-                    <div class="number">34</div>
+                    <div class="number">0</div>
                 </div>
                 <div class="card">
                     <h3>תשלומים ממתינים / כשלו</h3>
-                    <div class="number" style="color: #d29922;">3</div>
+                    <div class="number" style="color: #d29922;">0</div>
                 </div>
             </div>
 
             <div class="table-container">
                 <h3>פעולות גבייה אחרונות</h3>
                 <table>
-                    <tr>
-                        <th>שם לקוח</th>
-                        <th>תאריך חיוב</th>
-                        <th>סכום</th>
-                        <th>אמצעי תשלום</th>
-                        <th>סטטוס</th>
-                    </tr>
-                    <tr>
-                        <td>ישראל ישראלי</td>
-                        <td>16/04/2026</td>
-                        <td>₪450</td>
-                        <td>אשראי מסתיים ב-4521</td>
-                        <td><span class="status-ok">שולם בהצלחה</span></td>
-                    </tr>
-                    <tr>
-                        <td>חברת טסט פיתוח בע"מ</td>
-                        <td>15/04/2026</td>
-                        <td>₪1,200</td>
-                        <td>הוראת קבע בנקאית</td>
-                        <td><span class="status-pending">ממתין לאישור בנק</span></td>
-                    </tr>
-                    <tr>
-                        <td>כהן תקשורת</td>
-                        <td>14/04/2026</td>
-                        <td>₪280</td>
-                        <td>אשראי מסתיים ב-9980</td>
-                        <td><span class="status-ok">שולם בהצלחה</span></td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>שם לקוח</th>
+                            <th>תאריך חיוב</th>
+                            <th>סכום</th>
+                            <th>אמצעי תשלום</th>
+                            <th>סטטוס</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="empty-state">המערכת מאופסת ומוכנה לעבודה. אין עדיין נתוני גבייה להצגה.</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
