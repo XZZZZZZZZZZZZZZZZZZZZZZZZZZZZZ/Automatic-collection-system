@@ -2,21 +2,219 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>לוח בקרה - TPG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPG - לוח בקרה</title>
     <style>
         body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
             background-color: #0d1117; 
-            color: white; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            padding-top: 100px; 
+            color: #c9d1d9; 
+            display: flex; 
+            height: 100vh; 
         }
-        h1 { color: #2ea043; font-size: 50px; }
-        p { color: #8b949e; font-size: 20px; }
+        
+        /* תפריט צד (Sidebar) */
+        .sidebar { 
+            width: 250px; 
+            background-color: #161b22; 
+            border-left: 1px solid #30363d; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px 0; 
+        }
+        .sidebar h2 { 
+            color: #2ea043; 
+            text-align: center; 
+            font-size: 32px; 
+            margin-bottom: 40px; 
+            font-weight: 900;
+        }
+        .nav-item { 
+            padding: 15px 25px; 
+            color: #8b949e; 
+            text-decoration: none; 
+            display: block; 
+            border-bottom: 1px solid #21262d; 
+            transition: 0.2s; 
+            font-size: 16px;
+        }
+        .nav-item:hover, .nav-item.active { 
+            background-color: #238636; 
+            color: white; 
+            border-left: 4px solid #2ea043;
+        }
+
+        /* אזור תוכן מרכזי */
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .topbar { 
+            background-color: #161b22; 
+            height: 70px; 
+            border-bottom: 1px solid #30363d; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 30px; 
+        }
+        .topbar .user-info {
+            color: #2ea043;
+            font-weight: bold;
+        }
+        .content-area { 
+            padding: 30px; 
+            overflow-y: auto; 
+        }
+        .welcome-title { 
+            font-size: 28px; 
+            color: #ffffff; 
+            margin-bottom: 30px; 
+        }
+
+        /* קלפי נתונים (Cards) */
+        .cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        .card { 
+            background-color: #161b22; 
+            border: 1px solid #30363d; 
+            border-radius: 10px; 
+            padding: 25px; 
+        }
+        .card h3 { 
+            margin: 0 0 15px 0; 
+            color: #8b949e; 
+            font-size: 18px; 
+            font-weight: normal;
+        }
+        .card .number { 
+            font-size: 38px; 
+            color: #2ea043; 
+            font-weight: bold; 
+        }
+
+        /* טבלה */
+        .table-container { 
+            background-color: #161b22; 
+            border: 1px solid #30363d; 
+            border-radius: 10px; 
+            padding: 25px; 
+        }
+        .table-container h3 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        th, td { 
+            text-align: right; 
+            padding: 15px; 
+            border-bottom: 1px solid #30363d; 
+        }
+        th { 
+            color: #8b949e; 
+            font-weight: normal; 
+        }
+        .status-ok { 
+            background-color: rgba(46, 160, 67, 0.15); 
+            color: #3fb950; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .status-pending { 
+            background-color: rgba(210, 153, 34, 0.15); 
+            color: #d29922; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h1>ברוך הבא למערכת TPG!</h1>
-    <p>זהו לוח הבקרה החדש שלך. ההתחברות עברה בהצלחה.</p>
+
+    <div class="sidebar">
+        <h2>TPG</h2>
+        <a href="#" class="nav-item active">לוח בקרה ראשי</a>
+        <a href="#" class="nav-item">ניהול לקוחות</a>
+        <a href="#" class="nav-item">היסטוריית חיובים</a>
+        <a href="#" class="nav-item">הגדרות גבייה</a>
+        <a href="#" class="nav-item">דוחות וסטטיסטיקה</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto; border-top: 1px solid #30363d; color: #f85149;">התנתקות המערכת</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span>מערכת גבייה אוטומטית - גרסת בטא</span>
+            <span class="user-info">שלום, עסק לדוגמה</span>
+        </div>
+        
+        <div class="content-area">
+            <div class="welcome-title">סקירה כללית</div>
+            
+            <div class="cards">
+                <div class="card">
+                    <h3>הכנסות החודש (אפריל)</h3>
+                    <div class="number">₪12,450</div>
+                </div>
+                <div class="card">
+                    <h3>לקוחות פעילים במערכת</h3>
+                    <div class="number">34</div>
+                </div>
+                <div class="card">
+                    <h3>תשלומים ממתינים / כשלו</h3>
+                    <div class="number" style="color: #d29922;">3</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h3>פעולות גבייה אחרונות</h3>
+                <table>
+                    <tr>
+                        <th>שם לקוח</th>
+                        <th>תאריך חיוב</th>
+                        <th>סכום</th>
+                        <th>אמצעי תשלום</th>
+                        <th>סטטוס</th>
+                    </tr>
+                    <tr>
+                        <td>ישראל ישראלי</td>
+                        <td>16/04/2026</td>
+                        <td>₪450</td>
+                        <td>אשראי מסתיים ב-4521</td>
+                        <td><span class="status-ok">שולם בהצלחה</span></td>
+                    </tr>
+                    <tr>
+                        <td>חברת טסט פיתוח בע"מ</td>
+                        <td>15/04/2026</td>
+                        <td>₪1,200</td>
+                        <td>הוראת קבע בנקאית</td>
+                        <td><span class="status-pending">ממתין לאישור בנק</span></td>
+                    </tr>
+                    <tr>
+                        <td>כהן תקשורת</td>
+                        <td>14/04/2026</td>
+                        <td>₪280</td>
+                        <td>אשראי מסתיים ב-9980</td>
+                        <td><span class="status-ok">שולם בהצלחה</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
