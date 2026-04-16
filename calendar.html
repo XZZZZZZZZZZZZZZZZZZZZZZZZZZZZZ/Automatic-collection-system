@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>לוח שנה - TPG</title>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; height: 100vh; }
+        .sidebar { width: 250px; background-color: #161b22; border-left: 1px solid #30363d; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar h2 { color: #2ea043; text-align: center; font-size: 32px; margin-bottom: 40px; font-weight: 900; }
+        .nav-item { padding: 15px 25px; color: #8b949e; text-decoration: none; display: block; border-bottom: 1px solid #21262d; }
+        .nav-item:hover, .nav-item.active { background-color: #238636; color: white; border-left: 4px solid #2ea043; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; display: flex; gap: 20px; }
+        
+        /* לוח השנה */
+        .calendar-container { flex: 2; background-color: #161b22; border-radius: 10px; border: 1px solid #30363d; padding: 20px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: white; }
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        .day-box { background-color: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 15px; min-height: 80px; cursor: pointer; transition: 0.2s; position: relative; }
+        .day-box:hover { border-color: #2ea043; }
+        .day-number { font-weight: bold; color: #8b949e; }
+        .has-clients { border-bottom: 3px solid #d29922; } /* סימון צהוב לימים שיש בהם חיובים */
+        
+        /* פאנל הצד של רשימת הלקוחות באותו תאריך */
+        .day-details { flex: 1; background-color: #161b22; border-radius: 10px; border: 1px solid #30363d; padding: 20px; }
+        .client-card { background-color: #0d1117; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-right: 4px solid #2ea043; }
+        .client-card strong { display: block; color: white; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>TPG</h2>
+        <a href="dashboard.html" class="nav-item">לוח בקרה ראשי</a>
+        <a href="clients.html" class="nav-item">הוספת לקוחות לתזכורת</a>
+        <a href="calendar.html" class="nav-item active">לוח שנה (חיובים)</a>
+        <a href="settings.html" class="nav-item">הגדרות תקשורת</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto; border-top: 1px solid #30363d; color: #f85149;">התנתקות</a>
+    </div>
+
+    <div class="main-content">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <h2 style="margin: 0;">אפריל 2026</h2>
+                <span style="color: #8b949e;">תצוגת חודש נוכחי</span>
+            </div>
+            <div class="days-grid">
+                <div class="day-box"><div class="day-number">1</div></div>
+                <div class="day-box"><div class="day-number">2</div></div>
+                <div class="day-box"><div class="day-number">3</div></div>
+                <div class="day-box"><div class="day-number">4</div></div>
+                <div class="day-box"><div class="day-number">5</div></div>
+                <div class="day-box"><div class="day-number">6</div></div>
+                <div class="day-box"><div class="day-number">7</div></div>
+                <div class="day-box"><div class="day-number">8</div></div>
+                <div class="day-box"><div class="day-number">9</div></div>
+                <div class="day-box has-clients" onclick="showClients('10/04')"><div class="day-number" style="color: white;">10</div><div style="font-size: 11px; margin-top: 5px; color: #d29922;">2 חיובים</div></div>
+                <div class="day-box"><div class="day-number">11</div></div>
+                <div class="day-box"><div class="day-number">12</div></div>
+                <div class="day-box"><div class="day-number">13</div></div>
+                <div class="day-box"><div class="day-number">14</div></div>
+                <div class="day-box has-clients" onclick="showClients('15/04')"><div class="day-number" style="color: white;">15</div><div style="font-size: 11px; margin-top: 5px; color: #d29922;">1 חיובים</div></div>
+            </div>
+        </div>
+
+        <div class="day-details">
+            <h2 id="selectedDateTitle" style="color: white; margin-top: 0;">בחר יום בלוח</h2>
+            <p style="color: #8b949e;">כדי לראות את הלקוחות שצריכים לקבל תזכורת.</p>
+            
+            <div id="clientsList">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        function showClients(date) {
+            document.getElementById('selectedDateTitle').innerText = 'חיובים ל-' + date;
+            const list = document.getElementById('clientsList');
+            
+            if (date === '10/04') {
+                list.innerHTML = `
+                    <div class="client-card">
+                        <strong>כהן שירותים בע"מ</strong>
+                        <span style="color: #8b949e; font-size: 14px;">תזכורת: וואטסאפ (050-1234567)</span>
+                    </div>
+                    <div class="client-card">
+                        <strong>ישראל ישראלי</strong>
+                        <span style="color: #8b949e; font-size: 14px;">תזכורת: מייל ווואטסאפ</span>
+                    </div>
+                `;
+            } else if (date === '15/04') {
+                list.innerHTML = `
+                    <div class="client-card">
+                        <strong>חברת אלפא טק</strong>
+                        <span style="color: #8b949e; font-size: 14px;">תזכורת: מייל בלבד</span>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
