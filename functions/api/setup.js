@@ -1,27 +1,29 @@
 export async function onRequest(context) {
+    const { env } = context;
+    const db = env.DB;
+
     try {
-        // יצירת הטבלה
-        await context.env.DB.prepare(`
-            CREATE TABLE IF NOT EXISTS users (
+        // פקודה ליצירת טבלת הלקוחות החדשה לתזכורות
+        await db.prepare(`
+            CREATE TABLE IF NOT EXISTS customers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                email TEXT UNIQUE,
-                password_hash TEXT,
-                business_name TEXT
-            )
+                business_id INTEGER,
+                name TEXT NOT NULL,
+                payment_day INTEGER,
+                reminder_method TEXT,
+                phone TEXT,
+                email TEXT,
+                status TEXT DEFAULT 'active'
+            );
         `).run();
 
-        // הזרקת המשתמש
-        await context.env.DB.prepare(`
-            INSERT OR IGNORE INTO users (email, password_hash, business_name) 
-            VALUES ('test@tpg.com', '123456', 'עסק לדוגמה')
-        `).run();
-
-        return new Response("המסד מוכן! אפשר לחזור לאתר ולהתחבר.", {
-            headers: { "Content-Type": "text/plain; charset=utf-8" }
+        return new Response("<h1 style='color:green; text-align:center; font-family:sans-serif;'>הטבלה נוצרה בהצלחה! אפשר לחזור למערכת ולהוסיף לקוחות.</h1>", { 
+            headers: { "Content-Type": "text/html; charset=utf-8" } 
         });
     } catch (e) {
-        return new Response("שגיאה: " + e.message, {
-            headers: { "Content-Type": "text/plain; charset=utf-8" }
+        return new Response("שגיאה ביצירת הטבלה: " + e.message, { 
+            status: 500,
+            headers: { "Content-Type": "text/html; charset=utf-8" }
         });
     }
 }
