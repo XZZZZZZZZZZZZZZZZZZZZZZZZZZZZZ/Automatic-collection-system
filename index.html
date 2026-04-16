@@ -3,108 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPG | כניסה למערכת</title>
+    <title>TPG - התחברות</title>
     <style>
-        :root {
-            --bg: #0b0e11;
-            --card: #15191d;
-            --neon: #00ff88;
-            --text: #ffffff;
-        }
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .login-card {
-            background: var(--card);
+        .login-container {
+            background-color: #161b22;
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            text-align: center;
             width: 100%;
             max-width: 400px;
-            text-align: center;
-            border: 1px solid rgba(0,255,136,0.1);
         }
-        .logo {
-            font-size: 2.5rem;
+        h1 { 
+            color: #2ea043; 
+            font-size: 40px; 
+            margin-bottom: 5px; 
             font-weight: 900;
-            color: var(--neon);
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(0,255,136,0.3);
         }
-        h2 { margin-bottom: 30px; font-weight: 300; }
+        h2 { 
+            color: #8b949e; 
+            font-size: 20px; 
+            margin-bottom: 30px; 
+            font-weight: normal; 
+        }
         input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 20px;
-            background: #0b0e11;
+            margin-bottom: 15px;
+            background-color: #0d1117;
             border: 1px solid #30363d;
-            border-radius: 8px;
-            color: white;
-            outline: none;
+            color: #c9d1d9;
+            border-radius: 6px;
+            box-sizing: border-box;
+            direction: ltr; /* משאיר את האימייל והסיסמה משמאל לימין */
         }
-        input:focus { border-color: var(--neon); }
-        .btn {
+        button {
             width: 100%;
             padding: 12px;
-            background: var(--neon);
-            color: black;
+            background-color: #238636;
+            color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 6px;
             cursor: pointer;
-            transition: 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,136,0.4); }
+        button:hover { 
+            background-color: #2ea043; 
+        }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="logo">TPG</div>
-        <h2>ניהול גבייה אוטומטית</h2>
-        <form id="loginForm">
-            <input type="email" placeholder="אימייל" required>
-            <input type="password" placeholder="סיסמה" required>
-            <button type="submit" class="btn">התחבר למערכת</button>
-        </form>
-    </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            const password = e.target.querySelector('input[type="password"]').value;
-            const btn = e.target.querySelector('.btn');
-            
-            btn.innerText = 'מתחבר...';
+<div class="login-container">
+    <h1>TPG</h1>
+    <h2>ניהול גבייה אוטומטית</h2>
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="test@tpg.com" required>
+        <input type="password" id="password" placeholder="••••••" required>
+        <button type="submit">מתחבר...</button>
+    </form>
+</div>
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    body: JSON.stringify({ email, password }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // עוצר את רענון הדף האוטומטי
 
-                const data = await response.json();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-                if (data.success) {
-                    alert('התחברת בהצלחה! שלום ' + data.user.business_name);
-                    // כאן נעשה את המעבר לדאשבורד בשלב הבא
-                } else {
-                    alert(data.message);
-                    btn.innerText = 'התחבר למערכת';
-                }
-            } catch (err) {
-                alert('שגיאה בתקשורת עם השרת');
-                btn.innerText = 'התחבר למערכת';
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, password: password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // מקפיץ את הודעת ההצלחה שראית
+                alert("התחברת בהצלחה! שלום " + data.business_name);
+                
+                // ההעברה ללוח הבקרה!
+                window.location.href = "/dashboard.html";
+            } else {
+                alert("שגיאה: " + (data.error || "פרטי התחברות שגויים"));
             }
-        });
-    </script>
+        } catch (err) {
+            alert("שגיאה בתקשורת עם השרת: " + err.message);
+        }
+    });
+</script>
+
 </body>
 </html>
