@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>היסטוריית חיובים - TPG</title>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; height: 100vh; }
+        .sidebar { width: 250px; background-color: #161b22; border-left: 1px solid #30363d; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar h2 { color: #2ea043; text-align: center; font-size: 32px; margin-bottom: 40px; font-weight: 900; }
+        .nav-item { padding: 15px 25px; color: #8b949e; text-decoration: none; display: block; border-bottom: 1px solid #21262d; }
+        .nav-item:hover, .nav-item.active { background-color: #238636; color: white; border-left: 4px solid #2ea043; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .box { background-color: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: right; padding: 15px; border-bottom: 1px solid #30363d; }
+        th { color: #8b949e; font-weight: normal; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>TPG</h2>
+        <a href="dashboard.html" class="nav-item">לוח בקרה ראשי</a>
+        <a href="clients.html" class="nav-item">ניהול לקוחות</a>
+        <a href="history.html" class="nav-item active">היסטוריית חיובים</a>
+        <a href="settings.html" class="nav-item">הגדרות גבייה</a>
+        <a href="reports.html" class="nav-item">דוחות וסטטיסטיקה</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto; border-top: 1px solid #30363d; color: #f85149;">התנתקות המערכת</a>
+    </div>
+    <div class="main-content">
+        <h1 style="color: white; margin-top: 0;">היסטוריית חיובים</h1>
+        <div class="box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>מספר קבלה</th>
+                        <th>שם לקוח</th>
+                        <th>תאריך</th>
+                        <th>סכום</th>
+                        <th>סטטוס</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #8b949e;">אין עדיין היסטוריית חיובים להצגה.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
