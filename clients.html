@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ניהול לקוחות - TPG</title>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 40px; }
+        h1 { color: #2ea043; }
+        .box { background-color: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; margin-bottom: 25px; }
+        input { padding: 12px; margin: 5px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 6px; width: 250px;}
+        button { padding: 12px 24px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;}
+        button:hover { background-color: #2ea043; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: right; padding: 15px; border-bottom: 1px solid #30363d; }
+        th { color: #8b949e; font-weight: normal; }
+    </style>
+</head>
+<body>
+    <h1>ניהול לקוחות</h1>
+    <a href="/dashboard.html" style="color: #8b949e; text-decoration: none; display: inline-block; margin-bottom: 20px;">← חזור ללוח הבקרה</a>
+
+    <div class="box">
+        <h3 style="margin-top: 0; color: white;">הוספת לקוח חדש</h3>
+        <form id="addClientForm">
+            <input type="text" id="businessName" placeholder="שם העסק / לקוח" required>
+            <input type="email" id="clientEmail" placeholder="אימייל" required>
+            <button type="submit">הוסף לקוח למערכת</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h3 style="margin-top: 0; color: white;">לקוחות רשומים במערכת</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>מספר זיהוי (ID)</th>
+                    <th>שם העסק</th>
+                    <th>אימייל</th>
+                </tr>
+            </thead>
+            <tbody id="clientsTableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadClients() {
+            const response = await fetch('/api/clients');
+            const clients = await response.json();
+            const tbody = document.getElementById('clientsTableBody');
+            tbody.innerHTML = '';
+            clients.forEach(client => {
+                tbody.innerHTML += `<tr><td>${client.id}</td><td>${client.business_name}</td><td>${client.email}</td></tr>`;
+            });
+        }
+
+        document.getElementById('addClientForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const businessName = document.getElementById('businessName').value;
+            const email = document.getElementById('clientEmail').value;
+
+            const response = await fetch('/api/clients', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ business_name: businessName, email: email })
+            });
+
+            if(response.ok) {
+                alert('לקוח נוסף בהצלחה!');
+                document.getElementById('addClientForm').reset();
+                loadClients(); 
+            } else {
+                alert('שגיאה: ייתכן שהאימייל כבר קיים במערכת.');
+            }
+        });
+
+        loadClients();
+    </script>
+</body>
+</html>
