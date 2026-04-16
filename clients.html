@@ -2,79 +2,126 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ניהול לקוחות - TPG</title>
+    <title>ניהול לקוחות הקצה - TPG</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 40px; }
-        h1 { color: #2ea043; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; height: 100vh; }
+        .sidebar { width: 250px; background-color: #161b22; border-left: 1px solid #30363d; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar h2 { color: #2ea043; text-align: center; font-size: 32px; margin-bottom: 40px; font-weight: 900; }
+        .nav-item { padding: 15px 25px; color: #8b949e; text-decoration: none; display: block; border-bottom: 1px solid #21262d; }
+        .nav-item:hover, .nav-item.active { background-color: #238636; color: white; border-left: 4px solid #2ea043; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .box { background-color: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; margin-bottom: 25px; }
-        input { padding: 12px; margin: 5px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 6px; width: 250px;}
-        button { padding: 12px 24px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;}
+        
+        /* עיצוב הטופס החדש */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { color: #8b949e; margin-bottom: 5px; font-size: 14px; }
+        input, select { padding: 10px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 6px; width: 100%; box-sizing: border-box; }
+        button { padding: 12px 24px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; grid-column: span 2; }
         button:hover { background-color: #2ea043; }
+        
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { text-align: right; padding: 15px; border-bottom: 1px solid #30363d; }
         th { color: #8b949e; font-weight: normal; }
+        
+        /* הסתרת שדות כברירת מחדל */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <h1>ניהול לקוחות</h1>
-    <a href="/dashboard.html" style="color: #8b949e; text-decoration: none; display: inline-block; margin-bottom: 20px;">← חזור ללוח הבקרה</a>
-
-    <div class="box">
-        <h3 style="margin-top: 0; color: white;">הוספת לקוח חדש</h3>
-        <form id="addClientForm">
-            <input type="text" id="businessName" placeholder="שם העסק / לקוח" required>
-            <input type="email" id="clientEmail" placeholder="אימייל" required>
-            <button type="submit">הוסף לקוח למערכת</button>
-        </form>
+    <div class="sidebar">
+        <h2>TPG</h2>
+        <a href="dashboard.html" class="nav-item">לוח בקרה ראשי</a>
+        <a href="clients.html" class="nav-item active">הוספת לקוחות לתזכורת</a>
+        <a href="calendar.html" class="nav-item">לוח שנה (חיובים)</a>
+        <a href="settings.html" class="nav-item">הגדרות תקשורת</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto; border-top: 1px solid #30363d; color: #f85149;">התנתקות</a>
     </div>
 
-    <div class="box">
-        <h3 style="margin-top: 0; color: white;">לקוחות רשומים במערכת</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>מספר זיהוי (ID)</th>
-                    <th>שם העסק</th>
-                    <th>אימייל</th>
-                </tr>
-            </thead>
-            <tbody id="clientsTableBody">
+    <div class="main-content">
+        <h1 style="color: white; margin-top: 0;">הוספת לקוח למערכת התזכורות</h1>
+        
+        <div class="box">
+            <form id="addClientForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>שם הלקוח</label>
+                        <input type="text" id="clientName" placeholder="לדוגמה: כהן שירותים" required>
+                    </div>
+                    <div class="form-group">
+                        <label>תאריך חיוב קבוע (יום בחודש)</label>
+                        <input type="number" id="paymentDay" min="1" max="31" placeholder="לדוגמה: 10" required>
+                    </div>
+                    <div class="form-group">
+                        <label>אופן התזכורת</label>
+                        <select id="reminderMethod" required>
+                            <option value="">בחר אופן תזכורת...</option>
+                            <option value="whatsapp">הודעת וואטסאפ בלבד</option>
+                            <option value="email">אימייל בלבד</option>
+                            <option value="both">גם וגם (וואטסאפ + מייל)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group hidden" id="phoneGroup">
+                        <label>מספר טלפון (לוואטסאפ)</label>
+                        <input type="tel" id="clientPhone" placeholder="0501234567">
+                    </div>
+                    <div class="form-group hidden" id="emailGroup">
+                        <label>כתובת אימייל</label>
+                        <input type="email" id="clientEmail" placeholder="client@email.com">
+                    </div>
+                    
+                    <button type="submit">שמור לקוח והפעל תזכורות</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box">
+            <h3 style="margin-top: 0; color: white;">לקוחות פעילים</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>שם הלקוח</th>
+                        <th>תאריך חיוב (כל חודש)</th>
+                        <th>אופן תזכורת</th>
+                        <th>פרטי קשר</th>
+                    </tr>
+                </thead>
+                <tbody id="clientsTableBody">
+                    <tr><td colspan="4" style="text-align: center; color: #8b949e;">אין לקוחות עדיין.</td></tr>
                 </tbody>
-        </table>
+            </table>
+        </div>
     </div>
 
     <script>
-        async function loadClients() {
-            const response = await fetch('/api/clients');
-            const clients = await response.json();
-            const tbody = document.getElementById('clientsTableBody');
-            tbody.innerHTML = '';
-            clients.forEach(client => {
-                tbody.innerHTML += `<tr><td>${client.id}</td><td>${client.business_name}</td><td>${client.email}</td></tr>`;
-            });
-        }
+        // קוד שמציג ומסתיר את שדות הטלפון והמייל לפי בחירת שיטת התזכורת
+        const reminderMethod = document.getElementById('reminderMethod');
+        const phoneGroup = document.getElementById('phoneGroup');
+        const emailGroup = document.getElementById('emailGroup');
+        const phoneInput = document.getElementById('clientPhone');
+        const emailInput = document.getElementById('clientEmail');
 
-        document.getElementById('addClientForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const businessName = document.getElementById('businessName').value;
-            const email = document.getElementById('clientEmail').value;
+        reminderMethod.addEventListener('change', function() {
+            // מאפס דרישות
+            phoneInput.required = false;
+            emailInput.required = false;
+            phoneGroup.classList.add('hidden');
+            emailGroup.classList.add('hidden');
 
-            const response = await fetch('/api/clients', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ business_name: businessName, email: email })
-            });
-
-            if(response.ok) {
-                alert('לקוח נוסף בהצלחה!');
-                document.getElementById('addClientForm').reset();
-                loadClients(); 
-            } else {
-                alert('שגיאה: ייתכן שהאימייל כבר קיים במערכת.');
+            if (this.value === 'whatsapp') {
+                phoneGroup.classList.remove('hidden');
+                phoneInput.required = true;
+            } else if (this.value === 'email') {
+                emailGroup.classList.remove('hidden');
+                emailInput.required = true;
+            } else if (this.value === 'both') {
+                phoneGroup.classList.remove('hidden');
+                emailGroup.classList.remove('hidden');
+                phoneInput.required = true;
+                emailInput.required = true;
             }
         });
-
-        loadClients();
     </script>
 </body>
 </html>
